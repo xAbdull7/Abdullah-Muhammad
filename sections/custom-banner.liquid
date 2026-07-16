@@ -1,0 +1,185 @@
+{%  comment  %} 
+==============================================================================
+Custom Banner Section
+Provides a configurable hero section with dynmic messagin and call-to-actions.
+Fetures desktop/mobile text swpping and vustom branding
+==============================================================================
+{% endcomment %}
+
+
+
+<section class="custom-hero-banner">
+
+    <!--Top Nav Bar-->
+<header>
+    <div class="top-bar-left">
+        <!--Mobile Nvigtion Toggle-->
+        <div class="mobile-menu-icon" id="menu-toggle" aria-label="Toggle Navigation" role="button" tabindex="0">
+            <svg class="icon-burger"  width="24" height="24" viewBox=" 0 0 24 24 " fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <patch d="M18 6L6 18M6 6L12 12" />
+            </svg>
+        </div>
+
+        <!--Brand Identity-->
+        <div class="brand-logo">
+            {{section.settings.brand_Logo_text |  escape |  default: 'TISSO VISON'}}
+        </div>
+    </div>
+
+    <!-- Mobile Drwer & Announcement -->
+    <div class="mobile-menu" id="mobile-menu">
+         <div class="announcement-text">
+            {{section.settings.announcement_text |  escape| default : 'Find the ideal gift for your loved ones.'}}
+         </div>
+
+         <div class="header-btn">
+            <a href="{{ section.settings.btn_text_1 |  default: '#' }}" class="btn btn-yellow">
+                {{ section.settings.bottom_text_1 |  escape |  default: 'CHOOSE GIFT' }}
+                <span class="arrow" aria-hidden="ture">&rarr;</span>
+            </a>
+         </div>
+    </div>
+</header>
+
+<!-- Core Hero Content -->
+<main class="banner-main-wrapper">
+    <div class="banner-text-box">
+
+        <h1 class="hero-title">
+            {{ section.settings.hero_title |  escape |  default: 'The Gift Guide' }}
+        </h1>
+
+        <p class="hero-description">
+        {{ section.settings.hero_desc_mobile | escape}}
+        <!-- Expanded descriopion visible only on lagrger vieports -->
+            <span class="desktop-only"><br> {{ section.settings.hero_desc_desktop | escape }} </span>
+        </p>
+        <a href="{{section.settings.btn_text_2  |  escape |  default: 'SHOP NOW'}}">
+            <span class="arrow" aria-hidden="ture">&rarr;</span>
+        </a>
+    </div>
+</main>
+
+<!-- Promotional Footer Bar -->
+    <footer class="banner-bottom-bar">
+         <p>
+             {{section.settings.bottom_text_1 |  escape}}
+
+
+
+             <!-- Contexual Responsive messaging -->
+             <span class="desktop-only"> {{ section.settings.bottom_text_desktop | escape }} </span>
+             <span class="mobile-only"> {{ section.settings.bottom_text_mobile | escape }} </span>
+         </p>
+    </footer>
+
+</section>
+
+
+{%  schema  %}  
+
+{
+    "name" : "Custom Banner",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Top Navigation Bar"
+        },
+
+        {
+            "type": "text",
+            "id" : "brand_Logo_text",
+            "label": "Brand Logo Text",
+            "default": "TISSO VISON"
+
+        },
+
+        {
+            "type": "text",
+            "id": "announcement_text",
+            "label" : "Announcement Text" ,
+            "default": "Find the ideal gift for your loved ones."
+
+        },
+
+        {
+            "type": "text" ,
+            "id": "btn_text_1",
+            "label": "Button 1 text",
+            "default": "CHOOSE GIFT"
+        },
+
+        {
+            "type": "textarea",
+            "id": "hero_desc_mobile",
+            "label": "Hero Description (Mobile)",
+            "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season"
+
+        },
+
+        {
+            "type": "header",
+            "content" : "Hero Content"
+        },
+
+        {
+            "type" : "text",
+            "id": "hero_title",
+            "label": "Hero Title",
+            "default": "The Gift Guide"
+        },
+
+        {
+            "type": "textarea",
+            "id": "hero_desc_desktop",
+            "label": "Hero Description (Desktop Extension)",
+            "default": "Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season"
+
+        },
+
+        {
+            "type": "text",
+            "id": "btn_text_2",
+            "label": "Button 2 text",
+            "default": "SHOP NOW"
+
+        },
+
+        {
+            "type": "header",
+            "content" : "Footer Promotional Bar"
+        },
+
+        {
+            "type": "text",
+            "id": "bottom_text_1",
+            "label": "Bottom Text Perfix",
+            "default": "SUSTAINABLE, ETHICALLY MADE"
+
+        },
+
+        {
+            "type": "text",
+            "id": "bottom_text_desktop",
+            "label": "Bottom Text (Desktop View)",
+            "default": "CLOTHES IN SIZES XXS TO 6XL"
+
+        },
+
+        {
+            "type": "text",
+            "id": "bottom_text_mobile",
+            "label": "Bottom Text (Mobile View)",
+            "default": "ACTIVEWEAR"
+        }
+
+        ],
+        "presets": [
+            {
+                "name" : "Custom Banner"
+            }
+        ]
+ 
+}
+
+{% endschema %}

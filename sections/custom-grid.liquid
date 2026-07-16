@@ -1,0 +1,174 @@
+{%  comment  %} 
+==============================================================================
+Custom Product Grid Section
+Renders a grid of featrued Product, Features  dynmic JS-powerd Quick View
+modal unilizing product variants and attributes
+==============================================================================
+{% endcomment %}
+
+
+
+
+<!-- Product Grid UI -->
+
+<section class="product-grid-section">
+    <h2 class="section-title">
+        {{ section.settings.section_title |  escape |  default : 'Tisso vison in the wild' }}
+    </h2>
+
+    <div class="product-grid">
+        {%  assign target_collection  = collections [section.settings.collection] %}
+        {%  if target_collection.product.size > 0  %}
+                        {%  for product in target_collection.product limit : section.settings.product_limit  %}
+                <div class="product-card">
+                    <!-- Featured Image -->
+                     <img src=" {{ product.featured_image  |  image_url: width: 600 }} " alt="{{ product.title | escape }}" loading="lazy">
+
+
+
+                    {%  comment  %}
+                    Extract color vriants efficiently
+                    Loops through options specifically looking for color attribute
+                    {% endcomment %}
+
+                     {%  assign color_options = "" %}
+                     {% for option in product.options_with_valuse %}
+                        {% assign downcsed_name = option.name | downcase %}
+                        {% if downcsed_name == 'color' or  downcsed_name == 'colour' %}
+                            {%  assign color_options = option.values | join : ','  %}
+                        {% endif %}
+                    {% endfor %}
+
+                    <!-- Quick View Trigger Button -->
+
+                    <button class="tag-btn">
+                            style = "top 50%; left 50%"
+                            data-title="{{ product.title| escape }}"
+                            data-price=" {{ product.price |  money }}"
+                            data-desc="{{ product.description |  strip_html |  truncate: 120 | escape }}"
+                            data-image="{{product.featured_image |  image_url: 600: }}"
+                            data-color="{{ color_options |  escape }}"
+                            data-handle="{{product.handle |  escape}}"
+                            aria-label="Quick View {{product.title |  escape}}"
+                        <span class="plus-icon" aria-hidden="true"></span>
+                    </button>
+
+                    <!-- JSON payload containing all varitants for JS processing -->
+                    <script type="application/json" class="product-variants-json">
+                        {{ product.variants | json }}
+                    </script>
+                </div>
+            {% endfor %}
+
+        {% else %}
+            <!-- Empty State FallBack -->
+             <p class="empty-state-msg" style="grid-column: 1 / -1 ; text-align:center; color:#555;">
+                Please Select a valid collection in the theme editor to display products
+             </p>
+        {% endif %}
+    </div>
+</section>
+
+
+
+
+
+{%  comment  %} 
+==============================================================================
+Global Product Modal Container
+Data is poplutted dynmically via custom-script.js
+==============================================================================
+{% endcomment %}
+
+
+<div class="modal" id="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-content">
+        <button class="close-modal" aria-label="Close Dialog">&times;</button>
+
+        <div class="modal-body">
+            <!-- Dynamic Imaage Wrapper -->
+            <img  id="modal-img" src="" alt="Product View">
+        </div>
+
+        <!-- Dynamic Content & Forms Wrapper -->
+         <div class="modal-info">
+            <h3 class="modal-product-title" id="modal-title"></h3>
+            <p class="modal-product-price" id="modal-price"></p>
+            <p class="modal-product-desc" id="modal-desc"></p>
+
+
+
+            <div class="variants">
+                <!-- Dynamic Color Selection -->
+                 <div class="variant-group" id="color-variant-group" style="display: none;">
+                    <label>Color</label>
+                    <div class="color-options" role="group" aria-label="Color Selection"></div>
+                 </div>
+
+                <!-- Static Size Selection -->
+
+                <div class="variants-group">
+                    <label for="variant-size">Size</label>
+                    <div class="select-wrapper">
+                        <select class="variant-select" id="variant-size" required>
+                            <option value="disabled selected">Choose your size</option>
+                            <option value="XS">XS</option>
+                            <option value="S">S</option>
+                            <option value="M selected">M</option>
+                            <option value="L">L</option>
+                            <option value="XL">XL</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Hidden input trcking product handel -->
+                <input type="hidden" id="modal-product-handel" value="">
+
+                <!-- Submission Button -->
+                 <button class="btn btn-black add-to-cart-btn" id="add-to-cart">
+                    ADD TO CART <span class="arrow" aria-hidden="true">&rarr;</span>
+                 </button>
+            </div>
+         </div>
+    </div>
+</div>
+
+{%  schema  %}
+{
+    "name":" Custom Product Grid",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Grid Settings"
+        },
+
+        {
+            "type": "text",
+            "id": "section_title",
+            "label": "Heading",
+            "default": "Tisso vison in the wild"
+        },
+
+        {
+            "type": "collection",
+            "id": "collection",
+            "label": "product Source (Collection)"
+        },
+
+        {
+            "type": "range",
+            "id": "product_limit",
+            "min": 2,
+            "max": 12,
+            "step": 1,
+            "label": "Max of Product",
+            "default": 6
+        }
+
+
+
+    ]
+}
+
+
+{% endschema %}
