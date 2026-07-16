@@ -1,0 +1,676 @@
+/*
+*Theme Name : Tisso Vison - Custom Theme
+*Description : Custom responsive hero section and product grid for shopify
+*/
+
+
+/* ---- 1. CSS Varibles & Theming ---*/
+
+:root {
+    --primry-black : #000000;
+    --primry-white : #ffffff;
+    --accent-yallow : #FFF544;
+    --text-gray : #555555;
+    --light-gray : #fafafa;
+    --border-color : #eaeaea;
+    --font-main : "Roboto Condensed", sans-serif;
+    --font-heaading : " playfair Disply," serfi;
+}
+
+
+/* ---- 2. Base & Reset ---*/
+
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: var(--font-main);
+    background-color: var(--primry-white);
+    overflow-x: hidden;
+    color: var(--primry-black);
+}
+
+
+a {
+    text-decoration: none;
+}
+
+
+/* ---- Utility Classes  ---*/
+
+.mobile-only {
+    display: none !important;
+}
+
+.desktop-only{
+    display: block !important;
+}
+
+span.desktop-only {
+    display: inline !important;
+}
+
+span.mobile-only {
+    display: none !important;
+}
+
+
+/* ---- 3. Hero Banner Layout ---*/
+.custom-hero-banner {
+    width: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* ---- 4. Header Section ---*/
+
+.banner-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 55px;
+    background-color: var(--light-gray);
+    border-bottom: var(--border-color);
+    padding: 0 0 0 40px;
+}
+
+.top-bar-left {
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.mobile-menu-icon {
+    display: none;
+}
+
+.brand-logo {
+    font-weight: 700;
+    font-size: 1.25rem;
+    letter-spacing: 1.5px;
+    color: var(--primry-black);
+    text-transform: uppercase;
+}
+
+.mobile-menu {
+    display: flex;
+    flex: 2;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+
+.announcement-text {
+    font-size: 0.85rem;
+    color: var(--text-gray);
+    text-align: center;
+    flex: 1;
+}
+
+
+.header-btn {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    height: 100%;
+}
+
+
+
+/* ---- 5. Buttons & Animations ---*/
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 300;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    cursor: pointer;
+    border: none;
+}
+
+.btn .arrow {
+    margin-left: 8px;
+    transition: transform 0.3 cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+
+/* ---- Explicit Hover Animtion  ---*/
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 12px  rgba(0,0,0,0.15);
+}
+
+.btn .arrow:hover {
+    transform: translateX(6px);
+}
+
+.btn-yellow {
+    background-color: var(--accent-yallow);
+    color: var(--primry-black);
+    height: 100%;
+    padding: 0 30px;
+
+}
+
+
+.btn-yellow:hover {
+    background-color: #e6d400;
+}
+
+.btn-black {
+    background-color: var(--primry-black);
+    color: var(--primry-white);
+    padding: 16px 32px;
+}
+
+
+.btn-black:hover {
+    background-color: #333333;
+    box-shadow: 0px 6px 15px  rgba(0,0,0,0.3);
+}
+
+
+
+
+/* ---- 6. Buttons & Animations ---*/
+
+.banner-main-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 600px;
+    background-image: url('image.png');
+    background-position: center right;
+    background-size:cover ;
+    display: flex;
+    align-items: flex-end; /* Push Contnt Bottom Left  For Desktop*/
+    padding: 60px 48px;
+}
+
+.banner-text-box {
+    max-width: 480px;
+    text-align: left;
+    background: transparent;
+}
+
+hero-title {
+    font-size: 4rem;
+    font-weight: 700;
+    color: var(--primry-black);
+    margin: 0 0 15px 0;
+    line-height: 1;
+}
+
+
+.hero-description {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--text-gray);
+    margin: 0 0 30px 0;
+}
+
+
+/* ---- 7. Footer Section (Bottom Bar) ---*/
+
+.banner-bottom-bar {
+    text-align: center;
+    padding: 12px 20px;
+    width: 100%;
+    background-color: #f4f4f4;
+}
+
+
+.banner-bottom-bar p {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: var(--text-gray);
+}
+
+
+
+/* ---- 8. Product Grid Section ---*/
+
+
+.product-grid-section {
+    padding: 80px 48px;
+    background-color: var(--primry-white);
+}
+
+.section-title {
+    text-align: center;
+    font-family: var(--font-heaading);
+    font-size: 2.5rem;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.product-card {
+    position: relative;
+    aspect-ratio: 1;
+    overflow: hidden;
+    background-color: #f9f9f9;
+}
+
+.product-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+
+/* ---- Hotspot tags on images  ---*/
+
+.tag-btn {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    background: rgba(255, 255, 255, 0.95);
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0px 2px 5px  rgba(0,0,0,0.15);
+    transition: transform 0.2s ease, background 0.2s;
+    z-index: 2;
+}
+
+
+.tag-btn:hover {
+    transform: scale(1.15);
+    background: #fff;
+}
+
+.tag-btn .plus-icon {
+    font-size: 1.2rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--primry-black);
+}
+
+
+
+
+/* ---- 9. Modal Popup ---*/
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 9999;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0, 6);
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.modal.active {
+    display: flex;
+    opacity: 1;
+}
+
+
+.modal-content {
+    background-color: var(--primry-white);
+    width: 90%;
+    max-width: 850px;
+    display: flex;
+    position: relative;
+    box-shadow: 0px 10px 30px  rgba(0 ,0 ,0 ,0, 3);
+}
+
+.close-modal {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    border: none;
+    background: none;
+    font-size: 2.2rem;
+    font-weight: 300;
+    cursor: pointer;
+    z-index: 10;
+    color: #000000;
+    transition: color 0.2s, transform 0.2s;
+    line-height: 1;
+}
+
+
+.close-modal:hover {
+    color: #000;
+    transform: scale(1.1);
+}
+
+.modal-body {
+    display: flex;
+    width: 100%;
+}
+
+.mobile-image {
+    flex: 1;
+    background-color: #f4f4f4;
+}
+
+.mobile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.modal-info {
+    flex: 1;
+    padding: 50px 40px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+modal-product-title {
+    font-family: var(--font-heaading);
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
+
+modal-product-price {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+modal-product-desc {
+    font-size: 0.95rem;
+    color: var(--text-gray);
+    margin-bottom: 35px;
+    line-height: 1.6;
+}
+
+
+.variant-group {
+    margin-bottom: 25px;
+}
+
+.variant-group label {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+color-options {
+    display: flex;
+    gap: 0;
+    width: 100%;
+}
+
+
+/* ---- Custom Variant button logic mimicking figma Component 208 ---*/
+
+.variant-btn {
+    flex: 1;
+    text-align: center;
+    border: 1px solid var(--border-color);
+    background: var(--primry-white);
+    color: var(--primry-black);
+    padding: 10px 25px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+}
+
+.variant-btn::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 8px;
+    background-color: var(--accent-yallow, transparent);
+    border: 1px solid var(--border-color);
+}
+
+.variant-btn:first-child {
+    border: 2px solid var(--primry-black);
+    background: var(--primry-black);
+    color: var(--primry-black);
+    font-weight: 600;
+    z-index: 1;
+    padding: 9px 25px; /* Adjust padding for thiker border */
+}
+
+
+.variant-btn:first-child.active {
+    border-right: 2px solid var(--primry-black);
+}
+
+/* Size Select styling miking figma */
+
+.select-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.select-wrapper::after {
+    content: '\2304'; /* chevron down */
+    position: absolute;
+    right: 15px ;
+    top:  50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 1.2rem;
+    color: var(--primry-black);
+}
+
+.variant-select {
+    width: 100%;
+    padding: 14px 15px;
+    border: 1px solid var(--border-color);
+    outline: none;
+    font-size: 0.9rem;
+    font-family: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    appearance: none;
+}
+
+.variant-select:focus {
+    border-color: var(--primry-black);
+}
+
+.add-to-cart-btn {
+    margin-top: auto;
+    width: 100%;
+}
+
+
+
+
+/* =====================================================
+ 10. Mobile Responsiceness (max-width: 768px)
+=====================================================*/
+
+
+@media screen and (max-width : 768px) {
+
+    .desktop-only, span,.desktop-only {
+        display: none !important;
+    }
+    
+    .mobile-only {
+        display: block !important;
+    }
+
+    span.mobile-only {
+        display: inline !important;
+    }
+
+    /* Top Bar Mobile Re-Layout */
+
+    .banner-top-bar {
+        flex-direction: column;
+        height: auto;
+        padding: 0;
+        background-color: var(--light-gray);
+        border-bottom: none;
+    }
+
+    .top-bar-left {
+        width: 100%;
+        position: relative;
+        justify-content: center;
+        padding: 15px 20px ;
+        background-color: var(--primry-white);
+        border-bottom: 1px solid var(--border-color);
+    }
+
+    .brand-logo {
+        text-align: center;
+    }
+
+    .mobile-menu-icon {
+        display: block;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: var(--primry-black);
+    }
+
+    .mobile-menu {
+        display: none; /* hidden by defult */
+        flex-direction: column;
+        width: 100%;
+        background-color: var(--light-gray);
+    }
+
+    .mobile-menu.open {
+        display: flex;
+    }
+
+    .announcement-text {
+        width: 100%;
+        padding: 15px 20px 10px ;
+        font-size: 0.8rem;
+    }
+
+    .header-btn {
+        width: 100px;
+        height: auto;
+        padding: 0 20px 20px;
+        justify-content: center;
+    }
+
+
+    .btn-yellow {
+        width: 100%;
+        padding: 16px 20px;
+        justify-content: center;
+    }
+
+    /* Hero Mobile Layout */
+
+    .banner-main-wrapper {
+        min-height: 650px;
+        padding: 40px 20px;
+        align-items: center;
+        background-position: bottom center;
+        background-size:150%;
+    }
+
+    .banner-text-box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        height: 100%;
+        width: 100%;
+    }
+
+    .hero-title {
+        font-size: 2.8rem;
+        margin-bottom: 15px;
+    }
+
+    .hero-description {
+        margin: auto; /* Push button to the very bottom */
+        font-size: 1rem;
+    }
+
+    .btn-black {
+        margin-top: 260px; /* leave visual space for the illustration */
+    }
+
+    /* Grid Mobile */
+
+    .product-grid-section {
+        padding: 50px 20px ;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2,1 fr);
+        gap: 12px;
+    }
+
+
+    /* Modal Mobile */
+    .modal-content {
+        width: 95%;
+        max-width: 90vh;
+        overflow-y: auto;
+        border-radius: 5px; /* slight tounding for a nicer card look on */
+    }
+    .modal-body {
+        flex-direction: column;
+    }
+
+    .modal-image {
+        height: 250px; /* Reduced height to keep card compact */
+    }
+    
+    .modal-info {
+        padding: 25px 20px ;
+    }
+
+    modal-product-title {
+        font-size: 1.5rem;
+    }
+
+    .add-to-cart-btn {
+        margin-top: 25px;
+    }
+}
