@@ -151,7 +151,7 @@ document.addEventListener ('DOMContentLoaded', () => {
                         const colorBtn = document.createElement('button');
                         colorBtn.className = `variant-btn ${index===0 ? 'active': ''} `;
                         colorBtn.setAttribute('data-color', color.trim());
-                        colorBtn.style.setProperty('--accent-yallow', color.trim().toLowerCase()); // Fixed setAttribute -> setProperty
+                        colorBtn.style.setProperty('--accent-yellow', color.trim().toLowerCase()); // Fixed setAttribute -> setProperty
                         colorBtn.textContent = color.trim();
 
 
