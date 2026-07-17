@@ -41,10 +41,31 @@ modal unilizing product variants and attributes
                         {% endif %}
                     {% endfor %}
 
-                    <!-- Quick View Trigger Button -->
+                    {% assign top_pos = '50%' %}
+                    {% assign left_pos = '50%' %}
+                    {% if forloop.index == 1 %}
+                        {% assign top_pos = '15%' %}
+                        {% assign left_pos = '65%' %}
+                    {% elsif forloop.index == 2 %}
+                        {% assign top_pos = '20%' %}
+                        {% assign left_pos = '75%' %}
+                    {% elsif forloop.index == 3 %}
+                        {% assign top_pos = '25%' %}
+                        {% assign left_pos = '70%' %}
+                    {% elsif forloop.index == 4 %}
+                        {% assign top_pos = '30%' %}
+                        {% assign left_pos = '75%' %}
+                    {% elsif forloop.index == 5 %}
+                        {% assign top_pos = '20%' %}
+                        {% assign left_pos = '35%' %}
+                    {% elsif forloop.index == 6 %}
+                        {% assign top_pos = '20%' %}
+                        {% assign left_pos = '75%' %}
+                    {% endif %}
 
+                    <!-- Quick View Trigger Button -->
                     <button class="tag-btn"
-                            style="top: 50%; left: 50%;"
+                            style="top: {{ top_pos }}; left: {{ left_pos }};"
                             data-title="{{ product.title | escape }}"
                             data-price="{{ product.price | money }}"
                             data-desc="{{ product.description | strip_html | truncate: 120 | escape }}"

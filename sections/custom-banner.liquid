@@ -45,7 +45,12 @@ Fetures desktop/mobile text swpping and vustom branding
 </header>
 
 <!-- Core Hero Content -->
-<main class="banner-main-wrapper" {% if section.settings.image %}style="background-image: url('{{ section.settings.image | image_url: width: 2000 }}');"{% endif %}>
+{% if section.settings.image != blank %}
+  {% assign bg_image = section.settings.image | image_url: width: 2000 %}
+{% else %}
+  {% assign bg_image = 'imge.png' | asset_url %}
+{% endif %}
+<main class="banner-main-wrapper" style="background-image: url('{{ bg_image }}');">
     <div class="banner-text-box">
 
         <h1 class="hero-title">
