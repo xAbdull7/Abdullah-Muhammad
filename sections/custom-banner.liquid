@@ -6,7 +6,7 @@ Fetures desktop/mobile text swpping and vustom branding
 ==============================================================================
 {% endcomment %}
 
-
+{{ 'style.css' | asset_url | stylesheet_tag }}
 
 <section class="custom-hero-banner">
 
@@ -16,7 +16,7 @@ Fetures desktop/mobile text swpping and vustom branding
         <!--Mobile Nvigtion Toggle-->
         <div class="mobile-menu-icon" id="menu-toggle" aria-label="Toggle Navigation" role="button" tabindex="0">
             <svg class="icon-burger"  width="24" height="24" viewBox=" 0 0 24 24 " fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                <patch d="M18 6L6 18M6 6L12 12" />
+                <path d="M18 6L6 18M6 6L12 12" />
             </svg>
         </div>
 
@@ -33,16 +33,16 @@ Fetures desktop/mobile text swpping and vustom branding
          </div>
 
          <div class="header-btn">
-            <a href="{{ section.settings.btn_text_1 |  default: '#' }}" class="btn btn-yellow">
-                {{ section.settings.bottom_text_1 |  escape |  default: 'CHOOSE GIFT' }}
-                <span class="arrow" aria-hidden="ture">&rarr;</span>
+            <a href="{{ section.settings.btn_text_1_link |  default: '#' }}" class="btn btn-yellow">
+                {{ section.settings.btn_text_1 |  escape |  default: 'CHOOSE GIFT' }}
+                <span class="arrow" aria-hidden="true">&rarr;</span>
             </a>
          </div>
     </div>
 </header>
 
 <!-- Core Hero Content -->
-<main class="banner-main-wrapper">
+<main class="banner-main-wrapper" {% if section.settings.image %}style="background-image: url('{{ section.settings.image | image_url: width: 2000 }}');"{% endif %}>
     <div class="banner-text-box">
 
         <h1 class="hero-title">
@@ -54,8 +54,9 @@ Fetures desktop/mobile text swpping and vustom branding
         <!-- Expanded descriopion visible only on lagrger vieports -->
             <span class="desktop-only"><br> {{ section.settings.hero_desc_desktop | escape }} </span>
         </p>
-        <a href="{{section.settings.btn_text_2  |  escape |  default: 'SHOP NOW'}}">
-            <span class="arrow" aria-hidden="ture">&rarr;</span>
+        <a href="{{section.settings.btn_text_2_link  |  default: '#'}}" class="btn btn-black">
+            {{section.settings.btn_text_2  |  escape |  default: 'SHOP NOW'}}
+            <span class="arrow" aria-hidden="true">&rarr;</span>
         </a>
     </div>
 </main>
@@ -110,6 +111,12 @@ Fetures desktop/mobile text swpping and vustom branding
         },
 
         {
+            "type": "url",
+            "id": "btn_text_1_link",
+            "label": "Button 1 Link"
+        },
+
+        {
             "type": "textarea",
             "id": "hero_desc_mobile",
             "label": "Hero Description (Mobile)",
@@ -120,6 +127,12 @@ Fetures desktop/mobile text swpping and vustom branding
         {
             "type": "header",
             "content" : "Hero Content"
+        },
+
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Banner Image"
         },
 
         {
@@ -143,6 +156,12 @@ Fetures desktop/mobile text swpping and vustom branding
             "label": "Button 2 text",
             "default": "SHOP NOW"
 
+        },
+
+        {
+            "type": "url",
+            "id": "btn_text_2_link",
+            "label": "Button 2 Link"
         },
 
         {

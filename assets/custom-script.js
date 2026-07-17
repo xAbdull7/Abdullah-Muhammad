@@ -1,19 +1,15 @@
 /**
  * Tisso Vison - Shopify Custom JS
- * Handles movile menu toggle, product modal initilization, and dynamic Add-to-Cart logic
- * Strictired to ensure encapsulation , effinciency, and professional standards.
+ * Handles mobile menu toggle, product modal initialization, and dynamic Add-to-Cart logic
+ * Structured to ensure encapsulation, efficiency, and professional standards.
 */
 
-
-
-
 document.addEventListener ('DOMContentLoaded', () => {
-    'use srtict';
-
+    'use strict';
 
     /**
      * @namespace ThemeCore
-     * @discription Encpslates all core theme interactions to prevent global scope pollution.
+     * @description Encapsulates all core theme interactions to prevent global scope pollution.
     */
 
     const ThemeCore = {
@@ -22,7 +18,7 @@ document.addEventListener ('DOMContentLoaded', () => {
          */
         init() {
             this.initMobileMenu();
-            this.initProductMenu();
+            this.initProductModal(); // fixed spelling
         },
 
         /**
@@ -44,17 +40,16 @@ document.addEventListener ('DOMContentLoaded', () => {
         },
 
         /**
-         *  Initializes The Quick View Product Modal and its internal intractions.
+         *  Initializes The Quick View Product Modal and its internal interactions.
          */
 
         initProductModal() {
             const modal = document.getElementById('product-modal');
             if (!modal) return;
 
-            const closeBtn = document.querySelector ('.close-modal');
-            const tagBtn = document.querySelectorAll ('.tag-btn');
-            const addToCartBtn = document.getElementById ('add-to-cart-btn');
-
+            const closeBtn = document.querySelector('.close-modal');
+            const tagBtns = document.querySelectorAll('.tag-btn');
+            const addToCartBtn = document.getElementById('add-to-cart'); // fixed id matching html
 
             // Modal Dom Elements
 
@@ -63,45 +58,44 @@ document.addEventListener ('DOMContentLoaded', () => {
                 title: document.getElementById('modal-title'),
                 price: document.getElementById('modal-price'),
                 desc: document.getElementById('modal-desc'),
-                handel: document.getElementById('modal-product-handel'),
+                handle: document.getElementById('modal-product-handle'),
                 colorOptionsContainer: document.querySelector('.color-options'),
-                colorVarintGroup: document.getElementById('color-variant-group'),
-                sizeSelect: document.getElementById ('variant-size')
+                colorVariantGroup: document.getElementById('color-variant-group'), // fixed spelling
+                sizeSelect: document.getElementById('variant-size')
             };
 
-
-            //state Managment
+            //state Management
 
             const state = {
-                slectedColor:'',
-                currentVariants: []
-
+                selectedColor:'', // fixed spelling
+                currentVariants: [],
+                fallbackVariantId: null
             };
 
             /**     
              * Closes the modal
              */
 
-            const closeModal = () => modal.classList.remove ('acrive');
+            const closeModal = () => modal.classList.remove('active'); // fixed typo
 
             // Event bindings for closing modal
 
-            if (closeBtn) closeBtn.addEventListener ('click', closeModal);
-            window.addEventListener ('click', (e) => {
+            if (closeBtn) closeBtn.addEventListener('click', closeModal);
+            window.addEventListener('click', (e) => {
                 if (e.target === modal) closeModal();
             });
 
             // Event bindings for opening modal
 
-            tagBtn.forEach (btn => {
-                btn.addEventListener('click', () => this.openModal (btn,ui,state,modal));
+            tagBtns.forEach(btn => {
+                btn.addEventListener('click', () => this.openModal(btn, ui, state, modal));
             });
 
 
             // Event binding for add to cart 
 
             if (addToCartBtn) {
-                addToCartBtn.addEventListener('click', () => this.handelAddToCart(ui, state,addToCartBtn, closeModal));
+                addToCartBtn.addEventListener('click', () => this.handleAddToCart(ui, state, addToCartBtn, closeModal)); // fixed spelling
             }
         },
 
@@ -109,13 +103,13 @@ document.addEventListener ('DOMContentLoaded', () => {
         /** 
          * Opens and populates the product modal based on clicked tag data.
          * 
-         * @parma {HTMLElement} btn - The clicked tag button
-         * @parma {object} ui - The Modal UI Elements
-         * @parma {object} state - The Local State object
-         * @parma {HTMLElement} modal - The Modal Container
+         * @param {HTMLElement} btn - The clicked tag button
+         * @param {object} ui - The Modal UI Elements
+         * @param {object} state - The Local State object
+         * @param {HTMLElement} modal - The Modal Container
          */
 
-        openModal(btn, ui,state ,modal) {
+        openModal(btn, ui, state, modal) {
 
             //1 . parse product details from data attributes
             const details = {
@@ -123,14 +117,17 @@ document.addEventListener ('DOMContentLoaded', () => {
                 price: btn.getAttribute('data-price'),
                 desc: btn.getAttribute('data-desc'),
                 img: btn.getAttribute('data-image'),
-                colorsRaw: btn.getAttribute('data-colors'),
-                handel: btn.getAttribute('data-handel')
+                colorsRaw: btn.getAttribute('data-color'), // fixed from 'data-colors' to 'data-color'
+                handle: btn.getAttribute('data-handle'), // fixed from 'data-handel'
+                variantId: btn.getAttribute('data-variant-id') // user asked for variant id logic
             };
+
+            state.fallbackVariantId = details.variantId;
 
             //2 . parse variants JSON Sibling
 
-            const variantsScript = btn.parentElement.querySelector ('.product-variants-json');
-            state.currentVariants = variantsScript ? JSON.parse (variantsScript.textContent) : [];
+            const variantsScript = btn.parentElement.querySelector('.product-variants-json');
+            state.currentVariants = variantsScript ? JSON.parse(variantsScript.textContent) : [];
 
             //3 . Populate Modal text and image
 
@@ -138,51 +135,51 @@ document.addEventListener ('DOMContentLoaded', () => {
             if (ui.price) ui.price.textContent = details.price;
             if (ui.desc) ui.desc.textContent = details.desc;
             if (ui.img) ui.img.src = details.img;
-            if (ui.handel) ui.handel.value = details.handel;
+            if (ui.handle) ui.handle.value = details.handle;
 
 
-            //4 . Generate Color Swtches dynamically
+            //4 . Generate Color Switches dynamically
 
             if (ui.colorOptionsContainer) {
                 ui.colorOptionsContainer.innerHTML = ''; // Reset container
 
-                if (details.colorOptionsContainer && details.colorsRaw.tirm() !== '') {
-                    if (ui.colorVarintGroup) ui.colorVarintGroup.style.display = 'block';
+                if (details.colorsRaw && details.colorsRaw.trim() !== '') {
+                    if (ui.colorVariantGroup) ui.colorVariantGroup.style.display = 'block';
 
-                    const colors = details.document.createElement('button');
-                    colors.forEach ((color, index ) => {
+                    const colors = details.colorsRaw.split(','); // Fixed logic, previously was document.createElement
+                    colors.forEach((color, index) => {
                         const colorBtn = document.createElement('button');
-                        colorBtn.className = `variants-btn ${index===0 ? 'active': ''} `;
-                        colorBtn.setAttribute('data-color', color);
-                        colorBtn.style.setAttribute ('--accent-yallow' , color.toLowerCase());
-                        colorBtn.textContent = color;
+                        colorBtn.className = `variant-btn ${index===0 ? 'active': ''} `;
+                        colorBtn.setAttribute('data-color', color.trim());
+                        colorBtn.style.setProperty('--accent-yallow', color.trim().toLowerCase()); // Fixed setAttribute -> setProperty
+                        colorBtn.textContent = color.trim();
 
 
-                        if (index === 0) state.slectedColor = color; //set default
+                        if (index === 0) state.selectedColor = color.trim(); //set default
                         
 
-                        colorBtn.addEventListener('click' , () => {
-                            document.querySelectorAll('.variant-btn').forEach (b => b.classList.remove ('active'));
+                        colorBtn.addEventListener('click', () => {
+                            document.querySelectorAll('.variant-btn').forEach(b => b.classList.remove('active'));
                             colorBtn.classList.add('active');
-                            state.slectedColor = color;
+                            state.selectedColor = color.trim();
                         });
 
                         ui.colorOptionsContainer.appendChild(colorBtn);
                     });
-                }else {
-                    if (ui.colorVarintGroup) ui.colorVarintGroup.style.display = 'none';
-                    state.slectedColor = '';
+                } else {
+                    if (ui.colorVariantGroup) ui.colorVariantGroup.style.display = 'none';
+                    state.selectedColor = '';
                 }
             }
 
             // Display The Modal 
-            modal.classList.add = ('active');
+            modal.classList.add('active');
 
         },
 
 
         /** 
-         * Handel the AJAX Add-To-Cart submission, including conditional logic
+         * Handle the AJAX Add-To-Cart submission, including conditional logic
          * 
          * @param {object} ui - The modal UI elements.
          * @param {object} state - The Local state object.
@@ -192,134 +189,130 @@ document.addEventListener ('DOMContentLoaded', () => {
          */
 
 
-        async handelAddToCart (ui, state,addToCartBtn, closeModal){
-            const slectedSize = ui.slectedSize ? ui.sizeSelect.value : null;
+        async handleAddToCart(ui, state, addToCartBtn, closeModal) {
+            const selectedSize = ui.sizeSelect ? ui.sizeSelect.value : null;
             const currentProduct = ui.title ? ui.title.textContent : 'Product';
 
             //validation
 
-            if (ui.sizeSelect && !slectedSize) {
+            if (ui.sizeSelect && (!selectedSize || selectedSize === 'disabled selected')) {
                 alert('Please choose a size');
                 return;
             }
 
-            // Find Varint ID mathematiclly based on selected size and color 
+            // Find Variant ID mathematically based on selected size and color 
 
 
-            let VarintIdToAdd = null;
-            if (state.currentVariants.length > 0 ) {
+            let variantIdToAdd = null;
+            if (state.currentVariants.length > 0) {
                 const matchedVariant = state.currentVariants.find(v => {
-                    const ops = [v.option1, v.option2, v.option3,];
-                    return (!slectedSize || ops.includes (slectedSize)) && 
-                    (!state.slectedColor || ops.includes(state.slectedColor));
+                    const ops = [v.option1, v.option2, v.option3];
+                    return (!selectedSize || ops.includes(selectedSize)) && 
+                           (!state.selectedColor || ops.includes(state.selectedColor));
                 });
-                VarintIdToAdd = matchedVariant ? matchedVariant.id : state.currentVariants[0].id;
-            } else{
+                variantIdToAdd = matchedVariant ? matchedVariant.id : state.currentVariants[0].id;
+            } else {
                 // FallBack ID Demonstration purpose if Variants array is missing
-                VarintIdToAdd = 123456789;
+                variantIdToAdd = state.fallbackVariantId || 123456789;
             }
 
 
             // Provide UI loading feedback
 
             addToCartBtn.textContent = "Adding...";
-            addToCartBtn.display = true;
+            addToCartBtn.disabled = true; // fixed display = true
 
             const itemsToAdd = [{
-                id : VarintIdToAdd,
+                id: variantIdToAdd,
                 quantity: 1
             }];
 
-            //Business Logic : The Winter Jacjet "Trap"
-            // Automatically adds 'winter jacjet when black & size M are selected.'
-            // Attempt to dynamically fetch the winter jacket varints via shopify AJAX API
+            //Business Logic : The Winter Jacket "Trap"
+            // Automatically adds 'winter jacket when black & size M are selected.'
+            // Attempt to dynamically fetch the winter jacket variants via shopify AJAX API
 
 
-            const isTripActivated = (state,slectedColor === 'Black' && slectedSize === 'M');
+            const isTrapActivated = (state.selectedColor === 'Black' && selectedSize === 'M'); // fixed logic
 
-            if (isTripActivated) {
-
+            if (isTrapActivated) {
                  try {
-
-                 // Attempt to dynamically fetch the winter jacket varints via shopify AJAX API
+                 // Attempt to dynamically fetch the winter jacket variants via shopify AJAX API
                     const res = await fetch('/products/soft-winter-jacket.js');
                      if (res.ok) {
-
-
                          const winterJacket = await res.json();
                           if (winterJacket.variants && winterJacket.variants.length > 0) {
-
                              itemsToAdd.push({
-                             id: winterJacket.variants[0].id,
-                             quantity: 1
-                    });
+                                 id: winterJacket.variants[0].id,
+                                 quantity: 1
+                             });
+                          }
+                     }
+                 } catch (e) {
+                     console.error('Failed to fetch winter jacket variant info ', e);
+                 }
+            }
+
+            // Execute Cart Addition
+            try {
+                const response = await fetch('/cart/add.js', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ items: itemsToAdd })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Shopify API returned status ${response.status}`);
+                }
+
+                // Success Handler 
+
+                this.finalizeCartAddition({
+                    isTrapActivated, currentProduct, selectedColor: state.selectedColor, selectedSize,
+                    addToCartBtn, ui, closeModal, state
+                });
+            } catch (error) {
+                //error Handler
+                console.error('Cart API Error', error);
+                alert('There was a problem adding the item to your cart. please try again.'); 
+                addToCartBtn.innerHTML = 'ADD TO CART <span class="arrow" aria-hidden="true">&rarr;</span>';
+                addToCartBtn.disabled = false;
+            }
+        },
+
+        /**
+         * Resets UI and Notifies the user upon a successful cart addition.
+         * 
+         * @param {object} param - parameter wrapper.
+         * 
+         */
+
+        finalizeCartAddition({ isTrapActivated, currentProduct, selectedColor, selectedSize, addToCartBtn, ui, closeModal, state}) {
+            //Provide appropriate user feedback
+            if (isTrapActivated) {
+                alert(`SUCCESS! You added ${currentProduct} (${selectedColor}, ${selectedSize}) to your cart, \n\n BONUS APPLIED: 'Winter Jacket' was also automatically added to your cart !`);
+            } else {
+                alert(`SUCCESS! You added ${currentProduct} (${selectedColor}, ${selectedSize}) to your cart.`);
+            }
+
+            //Reset Button State 
+
+            addToCartBtn.innerHTML = 'ADD TO CART <span class="arrow" aria-hidden="true">&rarr;</span>';
+            addToCartBtn.disabled = false;
+
+            //Reset form and modal state
+            closeModal();
+            if (ui.sizeSelect) ui.sizeSelect.value = 'disabled selected';
+
+            const allColorBtns = document.querySelectorAll('.variant-btn');
+            if (allColorBtns.length > 0) {
+                allColorBtns.forEach(b => b.classList.remove('active'));
+                allColorBtns[0].classList.add('active');
+                state.selectedColor = allColorBtns[0].getAttribute('data-color');
             }
         }
-    } catch (e) {
-        console.error('Faild to fetch winter jacket varint info ', e);
-    }
-}
-        // Execite Cart Addition
-        try {
-            const response = await fetch('/cart/add.js', {
-                method: 'POST',
-                headers: { 'Content-type': 'application/json' },
-                body: JSON.stringify({ items: itemsToAdd })
-            });
-
-            if (!response.ok) {
-             throw new Error(`Shopify API returned status ${response.status}`);
-             }
-
-            // Success Handler 
-
-            this.finalizeCartAddition ({
-                isTripActivated , currentProduct , slectedColor : state.slectedColor , slectedSize,
-                addToCartBtn, ui, closeModal , state
-            })
-        } catch (error) {
-            //error Handler
-            console.error('Cart API Error', error);
-            alert('There was a problem adding the item to your cart. please try again.'); 
-            addToCartBtn.innerHTML = 'ADD TO CART <span class="arrow" aria-hidden="true">&rarr;</span>';
-            addToCartBtn.disabled = false
-        }
-    },
-    /**
-     * Resets UI and Notifies the userupon a successful cart addition.
-     * 
-     * @param {object} param - parameter wrapper.
-     * 
-     */
-
-    finalizeCartAddition ({ isTripActivated ,currentProduct , slectedColor, slectedSize , addToCartBtn , ui , closeModal, state}) {
-        //Provide appropriate user feedback
-        if (isTripActivated ) {
-            alert (`SUCCESS! You added ${currentProduct} (${slectedColor}, ${slectedSize}) to your cart, \n\n BONUS APPLIED: 'Winter Jacket' was also utomatically added to you caart !`);
-        } else {
-            alert (`SUCCESS! You added ${currentProduct} (${slectedColor}, ${slectedSize}) to your cart,`);
-        }
-
-        //Reset Button State 
-
-        addToCartBtn.innerHTML = 'ADD TO CART <span class="arrow" aria-hidden="true">&rarr;</span>';
-        addToCartBtn.disabled = false
-
-        //Reser from and modal state
-        closeModal();
-        if (ui.sizeSelect) ui.sizeSelect.value ='';
-
-        const allColorBtns = document.querySelectorAll ('.variant-btn');
-        if (allColorBtns.length > 0) {
-            allColorBtns.forEach(b => b.classList.remove('active'));
-            allColorBtns[0].classList.add('active');
-            state.slectedColor = addToCartBtn[0].getAttribute('data-color')
-        }
-    }
 
     };
 
     //Execute Theme core logic
     ThemeCore.init();
 });
-

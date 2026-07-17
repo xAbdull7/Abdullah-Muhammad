@@ -6,8 +6,7 @@ modal unilizing product variants and attributes
 ==============================================================================
 {% endcomment %}
 
-
-
+{{ 'style.css' | asset_url | stylesheet_tag }}
 
 <!-- Product Grid UI -->
 
@@ -17,12 +16,12 @@ modal unilizing product variants and attributes
     </h2>
 
     <div class="product-grid">
-        {%  assign target_collection  = collections [section.settings.collection] %}
-        {%  if target_collection.product.size > 0  %}
-                        {%  for product in target_collection.product limit : section.settings.product_limit  %}
+        {%  assign target_collection  = collections[section.settings.collection] %}
+        {%  if target_collection.products.size > 0  %}
+                        {%  for product in target_collection.products limit : section.settings.product_limit  %}
                 <div class="product-card">
                     <!-- Featured Image -->
-                     <img src=" {{ product.featured_image  |  image_url: width: 600 }} " alt="{{ product.title | escape }}" loading="lazy">
+                     <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
 
 
 
@@ -32,7 +31,7 @@ modal unilizing product variants and attributes
                     {% endcomment %}
 
                      {%  assign color_options = "" %}
-                     {% for option in product.options_with_valuse %}
+                     {% for option in product.options_with_values %}
                         {% assign downcsed_name = option.name | downcase %}
                         {% if downcsed_name == 'color' or  downcsed_name == 'colour' %}
                             {%  assign color_options = option.values | join : ','  %}
@@ -41,16 +40,17 @@ modal unilizing product variants and attributes
 
                     <!-- Quick View Trigger Button -->
 
-                    <button class="tag-btn">
-                            style = "top 50%; left 50%"
-                            data-title="{{ product.title| escape }}"
-                            data-price=" {{ product.price |  money }}"
-                            data-desc="{{ product.description |  strip_html |  truncate: 120 | escape }}"
-                            data-image="{{product.featured_image |  image_url: 600: }}"
-                            data-color="{{ color_options |  escape }}"
-                            data-handle="{{product.handle |  escape}}"
-                            aria-label="Quick View {{product.title |  escape}}"
-                        <span class="plus-icon" aria-hidden="true"></span>
+                    <button class="tag-btn"
+                            style="top: 50%; left: 50%;"
+                            data-title="{{ product.title | escape }}"
+                            data-price="{{ product.price | money }}"
+                            data-desc="{{ product.description | strip_html | truncate: 120 | escape }}"
+                            data-image="{{ product.featured_image | image_url: width: 600 }}"
+                            data-color="{{ color_options | escape }}"
+                            data-handle="{{ product.handle | escape }}"
+                            data-variant-id="{{ product.selected_or_first_available_variant.id }}"
+                            aria-label="Quick View {{ product.title | escape }}">
+                        <span class="plus-icon" aria-hidden="true">+</span>
                     </button>
 
                     <!-- JSON payload containing all varitants for JS processing -->
@@ -114,7 +114,7 @@ Data is poplutted dynmically via custom-script.js
                             <option value="disabled selected">Choose your size</option>
                             <option value="XS">XS</option>
                             <option value="S">S</option>
-                            <option value="M selected">M</option>
+                            <option value="M">M</option>
                             <option value="L">L</option>
                             <option value="XL">XL</option>
                         </select>
@@ -122,7 +122,7 @@ Data is poplutted dynmically via custom-script.js
                 </div>
 
                 <!-- Hidden input trcking product handel -->
-                <input type="hidden" id="modal-product-handel" value="">
+                <input type="hidden" id="modal-product-handle" value="">
 
                 <!-- Submission Button -->
                  <button class="btn btn-black add-to-cart-btn" id="add-to-cart">
@@ -132,6 +132,8 @@ Data is poplutted dynmically via custom-script.js
          </div>
     </div>
 </div>
+
+<script src="{{ 'custom-script.js' | asset_url }}" defer="defer"></script>
 
 {%  schema  %}
 {
@@ -167,6 +169,11 @@ Data is poplutted dynmically via custom-script.js
 
 
 
+    ],
+    "presets": [
+        {
+            "name": "Custom Product Grid"
+        }
     ]
 }
 

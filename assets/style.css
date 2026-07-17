@@ -203,7 +203,7 @@ span.mobile-only {
     background: transparent;
 }
 
-hero-title {
+.hero-title {
     font-size: 4rem;
     font-weight: 700;
     color: var(--primry-black);
@@ -392,20 +392,20 @@ hero-title {
 
 
 
-modal-product-title {
+.modal-product-title {
     font-family: var(--font-heaading);
     font-size: 1.8rem;
     margin-bottom: 10px;
     font-weight: 600;
 }
 
-modal-product-price {
+.modal-product-price {
     font-size: 1.2rem;
     font-weight: 600;
     margin-bottom: 20px;
 }
 
-modal-product-desc {
+.modal-product-desc {
     font-size: 0.95rem;
     color: var(--text-gray);
     margin-bottom: 35px;
@@ -425,7 +425,7 @@ modal-product-desc {
     text-transform: uppercase;
 }
 
-color-options {
+.color-options {
     display: flex;
     gap: 0;
     width: 100%;
@@ -522,7 +522,7 @@ color-options {
 
 @media screen and (max-width : 768px) {
 
-    .desktop-only, span,.desktop-only {
+    .desktop-only, span.desktop-only {
         display: none !important;
     }
     
@@ -666,7 +666,7 @@ color-options {
         padding: 25px 20px ;
     }
 
-    modal-product-title {
+    .modal-product-title {
         font-size: 1.5rem;
     }
 
