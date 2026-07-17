@@ -16,7 +16,10 @@ modal unilizing product variants and attributes
     </h2>
 
     <div class="product-grid">
-        {%  assign target_collection  = collections[section.settings.collection] %}
+        {% assign target_collection = section.settings.collection %}
+        {% if target_collection == blank or target_collection.products == blank %}
+            {% assign target_collection = collections[section.settings.collection] %}
+        {% endif %}
         {%  if target_collection.products.size > 0  %}
                         {%  for product in target_collection.products limit : section.settings.product_limit  %}
                 <div class="product-card">
@@ -87,7 +90,9 @@ Data is poplutted dynmically via custom-script.js
 
         <div class="modal-body">
             <!-- Dynamic Imaage Wrapper -->
-            <img  id="modal-img" src="" alt="Product View">
+            <div class="modal-image">
+                <img  id="modal-img" src="" alt="Product View">
+            </div>
         </div>
 
         <!-- Dynamic Content & Forms Wrapper -->
