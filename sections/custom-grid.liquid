@@ -12,7 +12,7 @@ modal unilizing product variants and attributes
 
 <section class="product-grid-section">
     <h2 class="section-title">
-        {{ section.settings.section_title |  escape |  default : 'Tisso vison in the wild' }}
+        {{ section.settings.section_title | escape | default: 'Tisso vison in the wild' }}
     </h2>
 
     <div class="product-grid">
@@ -21,7 +21,7 @@ modal unilizing product variants and attributes
             {% assign target_collection = collections[section.settings.collection] %}
         {% endif %}
         {%  if target_collection.products.size > 0  %}
-                        {%  for product in target_collection.products limit : section.settings.product_limit  %}
+                        {%  for product in target_collection.products limit: section.settings.product_limit  %}
                 <div class="product-card">
                     <!-- Featured Image -->
                      <img src="{{ product.featured_image | image_url: width: 600 }}" alt="{{ product.title | escape }}" loading="lazy">
@@ -37,7 +37,7 @@ modal unilizing product variants and attributes
                      {% for option in product.options_with_values %}
                         {% assign downcsed_name = option.name | downcase %}
                         {% if downcsed_name == 'color' or  downcsed_name == 'colour' %}
-                            {%  assign color_options = option.values | join : ','  %}
+                            {%  assign color_options = option.values | join: ','  %}
                         {% endif %}
                     {% endfor %}
 
@@ -163,7 +163,7 @@ Data is poplutted dynmically via custom-script.js
 
 {%  schema  %}
 {
-    "name":" Custom Product Grid",
+    "name": "Custom Product Grid",
     "settings": [
         {
             "type": "header",
